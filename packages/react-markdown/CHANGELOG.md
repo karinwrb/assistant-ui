@@ -1,5 +1,14 @@
 # @assistant-ui/react-markdown
 
+## 0.14.1
+
+### Patch Changes
+
+- [#4085](https://github.com/assistant-ui/assistant-ui/pull/4085) [`01244a5`](https://github.com/assistant-ui/assistant-ui/commit/01244a56026ee92bd4e49cb985136f9eb6d45154) - chore: update dependencies ([@Yonom](https://github.com/Yonom))
+
+- Updated dependencies [[`0a0c306`](https://github.com/assistant-ui/assistant-ui/commit/0a0c306286598ea885b046a1dfb85016f720051c), [`01244a5`](https://github.com/assistant-ui/assistant-ui/commit/01244a56026ee92bd4e49cb985136f9eb6d45154)]:
+  - @assistant-ui/react@0.14.8
+
 ## 0.14.0
 
 ### Patch Changes

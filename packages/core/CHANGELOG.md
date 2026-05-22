@@ -1,5 +1,41 @@
 # @assistant-ui/core
 
+## 0.2.5
+
+### Patch Changes
+
+- [#3967](https://github.com/assistant-ui/assistant-ui/pull/3967) [`0a0c306`](https://github.com/assistant-ui/assistant-ui/commit/0a0c306286598ea885b046a1dfb85016f720051c) - feat(core, react): add `MessagePrimitive.GenerativeUI` primitive ([@samdickson22](https://github.com/samdickson22))
+
+  A new first-class primitive for rendering agent-described React UI from a JSON
+  spec, with a consumer-provided component allowlist as the security boundary.
+
+  The agent emits a new `generative-ui` message part containing a tree of
+  components by name; `MessagePrimitive.GenerativeUI` walks the spec and resolves
+  each name against the registry you pass in. Unknown names throw a typed
+  `GenerativeUIRenderError` (or invoke the optional `Fallback`). Composes with
+  `MessagePrimitive.Parts` via the new `components.generativeUI` option, and
+  supports streaming partial specs.
+
+  ```tsx
+  <MessagePrimitive.Parts
+    components={{
+      generativeUI: { components: { Card, Button } },
+    }}
+  />
+  ```
+
+- [#4072](https://github.com/assistant-ui/assistant-ui/pull/4072) [`e4634a5`](https://github.com/assistant-ui/assistant-ui/commit/e4634a59b7a926d158e929d559326f243efe438b) - fix(core): replay the latched `initialize` thread event to late subscribers. `ensureInitialized` emits `initialize` once during construction, so a runtime seeded with non-empty `messages` (e.g. `useChatRuntime({ messages })` under `useRemoteThreadListRuntime`) fired it before the title binder's effect subscribed, and the `runEnd` → `generateTitle` wiring was never installed. `unstable_on("initialize", ...)` now schedules a one-off replay (on a microtask, re-checking the subscription) when the thread has already initialized, mirroring a BehaviorSubject, so late subscribers (the title binder, and `ThreadViewport`'s `thread.initialize` top-anchor reset) no longer miss it. ([@okisdev](https://github.com/okisdev))
+
+- [#3867](https://github.com/assistant-ui/assistant-ui/pull/3867) [`325de4c`](https://github.com/assistant-ui/assistant-ui/commit/325de4c73b348d4c20dafa4a2ac6d436c69dbf28) - relax `thread-message-like` image validation to accept `https://` and `blob:` URLs (and `svg+xml` data URIs) alongside base64 `data:` URIs, so assistant-authored images served from a URL render. ([@samdickson22](https://github.com/samdickson22))
+
+- [#4085](https://github.com/assistant-ui/assistant-ui/pull/4085) [`01244a5`](https://github.com/assistant-ui/assistant-ui/commit/01244a56026ee92bd4e49cb985136f9eb6d45154) - chore: update dependencies ([@Yonom](https://github.com/Yonom))
+
+- Updated dependencies [[`01244a5`](https://github.com/assistant-ui/assistant-ui/commit/01244a56026ee92bd4e49cb985136f9eb6d45154)]:
+  - assistant-stream@0.3.16
+  - assistant-cloud@0.1.29
+  - @assistant-ui/store@0.2.12
+  - @assistant-ui/tap@0.5.12
+
 ## 0.2.4
 
 ### Patch Changes

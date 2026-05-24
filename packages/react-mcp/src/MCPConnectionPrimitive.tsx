@@ -23,9 +23,11 @@ export interface RootProps {
   serverUrls: string[];
   children: React.ReactNode;
   onStatusChange?: (status: MCPConnectionStatus) => void;
+  /** Delay in ms before transitioning from "connecting" to "connected". Defaults to 500. */
+  connectDelay?: number;
 }
 
-function Root({ serverUrls, children, onStatusChange }: RootProps) {
+function Root({ serverUrls, children, onStatusChange, connectDelay = 500 }: RootProps) {
   const [status, setStatus] = useState<MCPConnectionStatus>("disconnected");
   const [error, setError] = useState<string | null>(null);
 
@@ -37,7 +39,7 @@ function Root({ serverUrls, children, onStatusChange }: RootProps) {
   const connect = () => {
     updateStatus("connecting");
     setError(null);
-    setTimeout(() => updateStatus("connected"), 500);
+    setTimeout(() => updateStatus("connected"), connectDelay);
   };
 
   const disconnect = () => {

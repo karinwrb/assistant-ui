@@ -23,11 +23,15 @@ interface RootProps {
   url: string;
   toolNames?: string[];
   children: React.ReactNode;
-  /** Delay in ms before attempting connection. Increase if you see flicker on fast networks. Default: 50 */
+  /**
+   * Delay in ms before attempting connection. Increase if you see flicker on fast networks.
+   * Default: 0 (changed from 50 — the delay was causing noticeable lag in my usage and
+   * I'd rather handle flicker at the UI level with CSS transitions if needed).
+   */
   connectDelay?: number;
 }
 
-function Root({ url, toolNames = [], children, connectDelay = 50 }: RootProps) {
+function Root({ url, toolNames = [], children, connectDelay = 0 }: RootProps) {
   const [status, setStatus] = useState<MCPServerStatus>("connecting");
   const [error, setError] = useState<Error | null>(null);
 

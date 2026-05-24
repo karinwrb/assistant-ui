@@ -23,9 +23,11 @@ interface RootProps {
   url: string;
   toolNames?: string[];
   children: React.ReactNode;
+  /** Delay in ms before attempting connection. Increase if you see flicker on fast networks. Default: 50 */
+  connectDelay?: number;
 }
 
-function Root({ url, toolNames = [], children }: RootProps) {
+function Root({ url, toolNames = [], children, connectDelay = 50 }: RootProps) {
   const [status, setStatus] = useState<MCPServerStatus>("connecting");
   const [error, setError] = useState<Error | null>(null);
 
@@ -46,14 +48,14 @@ function Root({ url, toolNames = [], children }: RootProps) {
           setError(err instanceof Error ? err : new Error(String(err)));
         }
       }
-    }, 50);
+    }, connectDelay);
 
     return () => {
       cancelled = true;
       clearTimeout(timeout);
       setStatus("disconnected");
     };
-  }, [url]);
+  }, [url, connectDelay]);
 
   return (
     <MCPServerContext.Provider value={{ url, status, error, toolNames }}>

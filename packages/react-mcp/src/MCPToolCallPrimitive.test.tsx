@@ -85,6 +85,17 @@ describe("MCPToolCallPrimitive", () => {
     expect(screen.getByText("Tool not found")).toBeInTheDocument();
   });
 
+  // Also verify that a more descriptive error message is rendered correctly,
+  // e.g. when the server returns a detailed error string.
+  it("renders detailed ErrorMessage when status is error", () => {
+    render(
+      <Wrapper state={{ status: "error", error: "Tool not found: search_web is not registered on this MCP server" }}>
+        <MCPToolCallPrimitive.ErrorMessage />
+      </Wrapper>
+    );
+    expect(screen.getByText(/search_web is not registered/)).toBeInTheDocument();
+  });
+
   it("throws when useMCPToolCall used outside Root", () => {
     const spy = jest.spyOn(console, "error").mockImplementation(() => {});
     function Bad() {

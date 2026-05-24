@@ -76,6 +76,17 @@ describe("MCPToolCallPrimitive", () => {
     expect(screen.queryByTestId("mcp-result")).toBeNull();
   });
 
+  // NOTE: Also check that result is hidden when status is "error" —
+  // there's no meaningful result to show if the tool call failed.
+  it("does not render Result when status is error", () => {
+    render(
+      <Wrapper state={{ status: "error", result: undefined }}>
+        <MCPToolCallPrimitive.Result />
+      </Wrapper>
+    );
+    expect(screen.queryByTestId("mcp-result")).toBeNull();
+  });
+
   it("renders ErrorMessage when status is error", () => {
     render(
       <Wrapper state={{ status: "error", error: "Tool not found" }}>
@@ -103,8 +114,4 @@ describe("MCPToolCallPrimitive", () => {
       return null;
     }
     expect(() => render(<Bad />)).toThrow(
-      "useMCPToolCall must be used within a MCPToolCallPrimitive.Root"
-    );
-    spy.mockRestore();
-  });
-});
+      "useMCPToolCall must be used 

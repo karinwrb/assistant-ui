@@ -22,6 +22,7 @@ describe("MCPServerPrimitive", () => {
       </MCPServerPrimitive.Root>
     );
 
+    // Initial status should be 'connecting' before the async connection resolves
     expect(screen.getByTestId("status").textContent).toBe("connecting");
 
     await waitFor(() => {
@@ -56,6 +57,8 @@ describe("MCPServerPrimitive", () => {
     expect(screen.getByText("http://example.com")).toBeTruthy();
   });
 
+  // Note: useMCPServer relies on context, so using it outside Root should throw.
+  // This guards against accidental misuse in consuming apps.
   it("throws when useMCPServer used outside Root", () => {
     const consoleError = jest.spyOn(console, "error").mockImplementation(() => {});
     expect(() => render(<StatusDisplay />)).toThrow(

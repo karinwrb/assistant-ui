@@ -65,6 +65,17 @@ describe("MCPToolCallPrimitive", () => {
     expect(screen.queryByTestId("mcp-result")).toBeNull();
   });
 
+  // Also verify that result is not rendered when status is "running",
+  // since a tool call in progress shouldn't expose partial results.
+  it("does not render Result when status is running", () => {
+    render(
+      <Wrapper state={{ status: "running", result: undefined }}>
+        <MCPToolCallPrimitive.Result />
+      </Wrapper>
+    );
+    expect(screen.queryByTestId("mcp-result")).toBeNull();
+  });
+
   it("renders ErrorMessage when status is error", () => {
     render(
       <Wrapper state={{ status: "error", error: "Tool not found" }}>

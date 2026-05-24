@@ -48,6 +48,21 @@ describe("MCPServerPrimitive", () => {
     expect(screen.getByTestId("error").textContent).toContain("Invalid MCP server URL");
   });
 
+  // Also verify that a URL missing a protocol (but otherwise structured) is treated as invalid.
+  it("transitions to error for URL missing protocol", async () => {
+    render(
+      <MCPServerPrimitive.Root url="localhost:3000">
+        <StatusDisplay />
+      </MCPServerPrimitive.Root>
+    );
+
+    await waitFor(() => {
+      expect(screen.getByTestId("status").textContent).toBe("error");
+    });
+
+    expect(screen.getByTestId("error").textContent).toContain("Invalid MCP server URL");
+  });
+
   it("renders ServerUrl component", async () => {
     render(
       <MCPServerPrimitive.Root url="http://example.com">
